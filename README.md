@@ -25,7 +25,7 @@ The application consist of two parts.
 1. API Gateway hosted HTTP endpoints
 
 
-A) https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
+* https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
 
  The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
 --------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ A) https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
 
 
 
-B) https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/get-image
+* https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/get-image
 
 The "get-image" endpoint retrives an image based on URL parameters
 
@@ -49,3 +49,5 @@ The "get-image" endpoint retrives an image based on URL parameters
 prod/get-image?key=postmon&fn=sonofman.jpg
 
 --------------------------------------------------------------------------------
+
+____________________________________________________________
