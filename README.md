@@ -27,7 +27,7 @@ The application consist of two parts.
 
 * https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
 
- The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
+The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
 --------------------------------------------------------------------------------
 
 {
@@ -51,3 +51,13 @@ prod/get-image?key=postmon&fn=sonofman.jpg
 --------------------------------------------------------------------------------
 
 ____________________________________________________________
+
+
+The application consist of two parts.
+
+1. NODEJS Express File Upload / Download UI
+
+On this form you can upload a file to based on your user name. And then download the file using your user name and file name that was upload.
+
+*Upload file based on UserName
+*Download file based on UserName & File Name
