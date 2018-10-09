@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Example app</title>
+    <title>Magic Leap Technical Assessment</title>
     <meta name="description" content="" />
     <link href="assets/css/styles.css" rel="stylesheet">
     <link href="assets/css/gradients.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         <header>
             <nav class="website-nav">
                 <ul>
-                  <li><a class="home-link" href="https://j8w25dod4j.execute-api.us-east-1.amazonaws.com/Prod/">Home</a></li>
+                  <li><a class="home-link" href="/">Home</a></li>
                 </ul>
             </nav>
         </header>
@@ -28,12 +28,11 @@
         <div class="message">
             
             <div class="text">
-                <h1>Congratulations!</h1>
-                <h2>You just created a Node.js web application</h2>
-				<form action="./file_upload.js" method="POST" enctype="multipart/form-data">
-					<input type="text" name="filename" />
-					<input type="file" name="username" />
-					<input type="file" name="file" />
+                <h1>Welcome</h1>
+                <h2>File Upload Via REST API</h2>
+				<form action="./file_upload" method="POST" enctype="multipart/form-data">
+					<label>User Name:</label>&nbsp;&nbsp;<input type="text" name="username" /><br />
+					<label>File:</label>&nbsp;&nbsp;<input type="file" name="file" /><br />
 					<input type="submit" value="Upload File" />
 				</form>
             </div>
