@@ -17,4 +17,26 @@ This sample includes:
   Gateway.
 * tests/ - this directory contains unit tests for your application
 
+____________________________________________________________
+
+
+The application consist of two parts.
+
+1. API Gateway hosted HTTP endpoints
+1.A) https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
+
+ The upload to S3 endpoint takes in a JSON formatted string in the body.
+--------------------------------------------------------------------------------
+
+{
+  "user_avatar": "{BASE64 Encoded}",
+  "username": "postmon",
+  "filename": "sonofman.jpg"
+}
+
+--------------------------------------------------------------------------------
+
+
+
+1.B) https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/get-image
 
