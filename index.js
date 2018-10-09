@@ -18,26 +18,36 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.post('/file_upload', upload.single('file'), (req, res, next) => {
 	
-  const encoded = req.file.toString('base64');
+	console.log(req.file);
+	
+  //const encoded = req.file.toString('base64');
+  var base64 = new Buffer(fs.readFileSync(req.file.path)).toString("base64")
+  
+  //let fileData = fs.readFileSync(req.files.upload[0].path)
   
   var filename = req.file.originalname;
   var username = req.body.username;
   
   
-  request.post(
-    'https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3',
-    { json: { username: username, filename: filename, user_avatar: encoded} },
-    function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            console.log(body)
-				
-			return res.redirect(response.statusCode, './?r=true');
-        }else{
-			res.send(error);
-			//return res.redirect(response.statusCode, './');
-		}
-    }
-)
+  var options = { method: 'POST',
+  url: 'https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3',
+  headers: 
+   {'cache-control': 'no-cache' },
+	body: '{\n  "user_avatar": "'+base64+'",\n  "username": "'+username+'",\n  "filename": "'+filename+'"\n}' };
+
+		request(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				console.log(body);
+					
+				return res.redirect(response.statusCode, './?r=true');
+			}else{
+				res.send(error);
+				//return res.redirect(response.statusCode, './');
+			}
+});
+  
+  
+
   
   
   
@@ -56,6 +66,7 @@ app.post('/file_view', urlencodedParser, function(req, res) {
   qs: { key: username, fn: filename },
   headers: 
    { 'cache-control': 'no-cache' } };
+   
 
 		request(options, function (error, response, body) {
 			
@@ -63,25 +74,31 @@ app.post('/file_view', urlencodedParser, function(req, res) {
 			  
 					var jsonObj = JSON.parse(body);
 					
-						//res.send(body);
-						
+					console.log(jsonObj)
+
 					
-					
-					res.contentType('image/jpeg');
-					res.status('200').send(jsonObj.Body.data, 'binary');
+					res.type('image/jpeg');
+					res.setHeader('Content-Disposition', 'attachment; filename='+filename);
+					res.setHeader('Content-Transfer-Encoding', 'binary');
+					res.setHeader('Content-Type', 'image/jpeg');
+					res.send(new Buffer(jsonObj.Body.data, 'binary'));
 					
 					
 				}else{
 					
-					res.send(error);
-				
+					var jsonObj = JSON.parse(body);
+					
+					//temp check	
+					if(jsonObj.message == 'Internal server error'){
+						return res.redirect(response.statusCode, './?v=false&fn='+filename);
+					}else{
+						res.send(error);
+					}
+					
+					
+					
 				}
 
-	
-  
-  
-  
-  
  
   
 });
