@@ -5,7 +5,7 @@
 const express = require('express')
 const app = express()
 const port = 80
-
+const AWS = require('aws-sdk');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
@@ -13,19 +13,44 @@ var fs = require('fs');
 var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
-
+var s3 = new AWS.S3();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+//Convert over from API Gateway.. Security issue with credentials, best served token based with IAM.
+app.get('upload-to-s3', function (req, res) {
+   
+   
+	 let encodedImage =JSON.parse(event.body).user_avatar;
+     let decodedImage = Buffer.from(encodedImage, 'base64');
+     
+     var filePath = "ml/" + JSON.parse(event.body).username + "/"+ JSON.parse(event.body).filename;
+     var params = {
+       "Body": decodedImage,
+       "Bucket": "s3imageupload",
+       "Key": filePath  
+    };
+    s3.upload(params, function(err, data){
+       if(err) {
+           callback(err, null);
+       } else {
+           let response = {
+        "statusCode": 200,
+        "headers": {
+        },
+        "body": JSON.stringify(data),
+        "isBase64Encoded": false
+    };
+	res.send(response);
+})
+
 
 app.post('/file_upload', upload.single('file'), (req, res, next) => {
 	
-	console.log(req.file);
-	
-  //const encoded = req.file.toString('base64');
+
   var base64 = new Buffer(fs.readFileSync(req.file.path)).toString("base64")
   
-  //let fileData = fs.readFileSync(req.files.upload[0].path)
-  
   var filename = req.file.originalname;
+  
   var username = req.body.username;
   
   
@@ -46,8 +71,6 @@ app.post('/file_upload', upload.single('file'), (req, res, next) => {
 			}
 });
   
-  
-
   
   
   
@@ -74,9 +97,6 @@ app.post('/file_view', urlencodedParser, function(req, res) {
 			  
 					var jsonObj = JSON.parse(body);
 					
-					console.log(jsonObj)
-
-					
 					res.type('image/jpeg');
 					res.setHeader('Content-Disposition', 'attachment; filename='+filename);
 					res.setHeader('Content-Transfer-Encoding', 'binary');
@@ -96,22 +116,16 @@ app.post('/file_view', urlencodedParser, function(req, res) {
 					}
 					
 					
-					
 				}
-
- 
   
 });
   
 
   
   
-  
 })
 
 app.get('/', function (req, res) {
-   //res.sendFile('./public/index.html');
-   //res.sendFile(path.join(__dirname + '/index.html'));
    
    var contents = fs.readFileSync(`public${path.sep}index.html`);
 	res.send(contents.toString());
