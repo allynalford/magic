@@ -9,7 +9,8 @@ const port = 80
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
-
+var fs = require('fs');
+var path = require('path');
 
 app.post('/file_upload', upload.single('file'), (req, res, next) => {
   // req.file is the `example` file or whatever you have on the `name` attribute: <input type="file" name="example" />
@@ -18,6 +19,12 @@ app.post('/file_upload', upload.single('file'), (req, res, next) => {
   console.log(encoded)
 })
 
-app.get('/', (req, res) => res.send('Hello World!'))
+//app.get('/', (req, res) => res.send('Hello World!'))
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.get('/', function (req, res) {
+   res.sendFile('public${path.sep}index.html');
+})
+
+
+
+app.listen(port, () => console.log(`app listening on port ${port}!`))
