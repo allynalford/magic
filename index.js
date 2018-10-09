@@ -12,10 +12,12 @@ const upload = multer({ dest: 'uploads/' })
 var fs = require('fs');
 var path = require('path');
 var request = require('request');
+var bodyParser = require('body-parser');
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.post('/file_upload', upload.single('file'), (req, res, next) => {
-  // req.file is the `example` file or whatever you have on the `name` attribute: <input type="file" name="example" />
-  // I believe it is a `Buffer` object.
+	
   const encoded = req.file.toString('base64');
   
   var filename = req.file.originalname;
@@ -28,10 +30,11 @@ app.post('/file_upload', upload.single('file'), (req, res, next) => {
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body)
-			
-			res.send('File ' + filename +' Uploaded to ML/' + username + '/')
+				
+			return res.redirect(response.statusCode, './?r=true');
         }else{
-			res.send(error)
+			res.send(error);
+			//return res.redirect(response.statusCode, './');
 		}
     }
 )
@@ -40,7 +43,54 @@ app.post('/file_upload', upload.single('file'), (req, res, next) => {
   
 })
 
+app.post('/file_view', urlencodedParser, function(req, res) {
 
+	
+  
+  var filename = req.body.filename;
+  var username = req.body.username;
+  
+  
+  var options = { method: 'GET',
+  url: 'https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/get-image',
+  qs: { key: username, fn: filename },
+  headers: 
+   { 'cache-control': 'no-cache' } };
+
+		request(options, function (error, response, body) {
+			
+		  if (!error && response.statusCode == 200) {
+			  
+					var jsonObj = JSON.parse(body);
+					
+						//res.send(body);
+						
+					
+					
+					res.contentType('image/jpeg');
+					res.status('200').send(jsonObj.Body.data, 'binary');
+					
+					
+				}else{
+					
+					res.send(error);
+				
+				}
+
+	
+  
+  
+  
+  
+ 
+  
+});
+  
+
+  
+  
+  
+})
 
 app.get('/', function (req, res) {
    //res.sendFile('./public/index.html');
