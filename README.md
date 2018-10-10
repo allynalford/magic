@@ -26,8 +26,8 @@ The application consist of two parts.
 
 
 * https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/upload-to-s3
-Repo: https://github.com/allynalford/magic_lambda_upload
-The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
+* Repo: https://github.com/allynalford/magic_lambda_upload
+* The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
 --------------------------------------------------------------------------------
 
 {
@@ -41,9 +41,8 @@ The "upload-to-s3" endpoint takes in a JSON formatted string in the body.
 
 
 * https://v827vdxy7h.execute-api.us-east-1.amazonaws.com/prod/get-image
-
-Repo: https://github.com/allynalford/magic_lambda
-The "get-image" endpoint retrives an image based on URL parameters
+* Repo: https://github.com/allynalford/magic_lambda
+* The "get-image" endpoint retrives an image based on URL parameters
 
 --------------------------------------------------------------------------------
 
@@ -58,7 +57,8 @@ The application consist of two parts.
 
 1. NODEJS Express File Upload / Download UI
 
-On this form you can upload a file to based on your user name. And then download the file using your user name and file name that was upload.
+* On this form you can upload a file to based on your user name. And then download the file using your user name and file name that was upload.
 
-*Upload file based on UserName
-*Download file based on UserName & File Name
+* Upload file based on UserName
+
+* Download file based on UserName & File Name
