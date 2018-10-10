@@ -16,32 +16,6 @@ var bodyParser = require('body-parser');
 var s3 = new AWS.S3();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-//Convert over from API Gateway.. Security issue with credentials, best served token based with IAM.
-app.get('upload-to-s3', function (req, res) {
-   
-   
-	 let encodedImage =JSON.parse(event.body).user_avatar;
-     let decodedImage = Buffer.from(encodedImage, 'base64');
-     
-     var filePath = "ml/" + JSON.parse(event.body).username + "/"+ JSON.parse(event.body).filename;
-     var params = {
-       "Body": decodedImage,
-       "Bucket": "s3imageupload",
-       "Key": filePath  
-    };
-    s3.upload(params, function(err, data){
-       if(err) {
-           callback(err, null);
-       } else {
-           let response = {
-        "statusCode": 200,
-        "headers": {
-        },
-        "body": JSON.stringify(data),
-        "isBase64Encoded": false
-    };
-	res.send(response);
-})
 
 
 app.post('/file_upload', upload.single('file'), (req, res, next) => {
